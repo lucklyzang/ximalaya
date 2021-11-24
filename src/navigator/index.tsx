@@ -4,6 +4,7 @@ import {createNativeStackNavigator, NativeStackNavigationProp} from '@react-navi
 import Home from '../pages/Home';
 import Details from '../pages/Details';
 import BottomTabs from './BottomTabs';
+import { Platform, StatusBar } from 'react-native';
 
 
 export type RootStackParamList = {
@@ -30,7 +31,11 @@ class Navigation extends React.Component {
                         gestureEnabled: true
                     }}
                 >
-                    <Stack.Screen name="BottomTabs" component={BottomTabs} />
+                    <Stack.Screen name="BottomTabs" component={BottomTabs} 
+                        options={{
+                            title: '首页'
+                        }}
+                    />
                     <Stack.Screen name="Details" options={{
                         title: '详情页',
                         headerStyle: {
