@@ -1,54 +1,96 @@
 import {Effect, Model} from 'dva-core-ts'
 import { Reducer } from 'react';
+import { fetchCarouselData, fetchChannelData, fetchGuessData } from '../config/api';
+
+export interface ICarousel {
+    id: string,
+    image: string,
+    colors: [string,string]
+}
+
+export interface IGuess {
+    id: string,
+    title: string,
+    image: string
+}
+
+export interface IChannels {
+    id: string,
+    title: string,
+    image: string,
+    played: number,
+    playing: number,
+    remark: string
+}
 
 export interface HomeState {
-    num: number;
-    loading: boolean
+    carousels: ICarousel[],
+    guessData: IGuess[],
+    channels: IChannels[]
 }
 
-const action =  {
-    type: 'add'
-}
 
 interface HomeModel extends Model {
     namespace: 'home';
     state: HomeState;
     reducers: {
-        add: Reducer<HomeState,any>
+        setState: Reducer<HomeState,any>
     };
     effects: {
-        asyncAdd: Effect
+        fetchCarousels: Effect,
+        fetchGuess: Effect,
+        fetchChannels: Effect
     }
 
 }
-function delay (tiemout: number) {
-    return new Promise((resolve) => {
-        setTimeout(resolve,tiemout)
-    })
-}
 
 const initialState = {
-    num: 0,
-    loading: false
+    carousels: [],
+    guessData: [],
+    channels: []
+
 }
 
 const homeModel: HomeModel = {
     namespace: 'home',
     state: initialState,
     reducers: {
-        add(state = initialState ,{payload}) {
+        setState(state = initialState ,{payload}) {
             return {
                 ...state,
-                num: state.num + payload.num,
+                ...payload
             }
         }
     },
     effects: {
-        *asyncAdd ({payload},{call,put}) {
-            yield call(delay,3000);
+        *fetchCarousels (_,{call,put}) {
+            const {data} = yield call(fetchCarouselData);
+            console.log('轮播图数据',data);
             yield put({
-                type: 'add',
-                payload
+                type: 'setState',
+                payload: {
+                    carousels: data
+                }
+            })
+        },
+        *fetchGuess (_,{call,put}) {
+            const {data} = yield call(fetchGuessData);
+            console.log('猜你喜欢数据',data);
+            yield put({
+                type: 'setState',
+                payload: {
+                    guessData: data
+                }
+            })
+        },
+        *fetchChannels (_,{call,put}) {
+            const {data} = yield call(fetchChannelData);
+            console.log('列表数据',data.results);
+            yield put({
+                type: 'setState',
+                payload: {
+                    channels: data.results
+                }
             })
         }
     }
