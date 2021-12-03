@@ -37,18 +37,50 @@ class Home extends React.Component<IProps> {
 
     renderItem = ({item}:ListRenderItemInfo<IChannels>) => {
         return (
-            <ChannellItem data={item}/>
+            <ChannellItem data={item} onPress={this.onPress} />
+        )
+    };
+    
+    get header () {
+        const {carousels} = this.props;
+        return (
+            <View>
+                <Carousel data={carousels} />
+                <Guess/>
+            </View>
         )
     }
 
+    onPress = (data:IChannels) => {
+        console.log('子组件向父组件传递的数据',data)
+    }
+
+    keyExtractor = (item: IChannels) => {
+        return item.id
+    }
+
+    // 加载更多
+    onEndReached = () => {
+        console.log('--加载更多--');
+        const {dispatch} = this.props;
+        dispatch({
+            type: 'home/fetchChannels',
+            payload: {
+                loadMore: true
+            }
+        })
+    }
+
     render () {
-        const {carousels,channels} = this.props;
+        const {channels} = this.props;
         return (
-            <ScrollView>
-                <Carousel data={carousels} />
-                <Guess/>
-                <FlatList data={channels} renderItem={this.renderItem} />
-            </ScrollView>
+            <FlatList data={channels} 
+                renderItem={this.renderItem} 
+                ListHeaderComponent={this.header}
+                keyExtractor={this.keyExtractor}
+                onEndReached={this.onEndReached}
+                onEndReachedThreshold={0.2}
+            />
         )
     }
 }

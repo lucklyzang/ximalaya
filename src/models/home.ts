@@ -1,5 +1,6 @@
 import {Effect, Model} from 'dva-core-ts'
 import { Reducer } from 'react';
+import { RootState } from '.';
 import { fetchCarouselData, fetchChannelData, fetchGuessData } from '../config/api';
 
 export interface ICarousel {
@@ -83,13 +84,18 @@ const homeModel: HomeModel = {
                 }
             })
         },
-        *fetchChannels (_,{call,put}) {
+        *fetchChannels ({payload},{call,put,select}) {
+            const {channels} = yield select((state: RootState) => state.home);
             const {data} = yield call(fetchChannelData);
-            console.log('列表数据',data.results);
+            let newChannels = data.results;
+            if (payload && payload.loadMore) {
+                newChannels = channels.concat(newChannels)
+            };
+            console.log('列表数据',newChannels);
             yield put({
                 type: 'setState',
                 payload: {
-                    channels: data.results
+                    channels: newChannels
                 }
             })
         }

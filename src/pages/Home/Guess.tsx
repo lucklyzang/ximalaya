@@ -1,10 +1,11 @@
 import React from 'react'
-import {View,Text,StyleSheet,FlatList,Image, TouchableOpacity, Alert} from 'react-native'
+import {View,Text,StyleSheet,FlatList} from 'react-native'
 import {connect, ConnectedProps} from 'react-redux'
 import {RootState} from '../../models'
 import {IGuess} from '../../models/home'
 import Touchable from '../../components/Touchable'
 import Icon from '../../assets/iconfont/index';
+import GuessItem from './GuessItem'
 const mapStateToProps = ({home,loading}: RootState) => ({
     guessData: home.guessData,
     loading: loading.effects['home/asyncAdd']
@@ -28,15 +29,18 @@ class Guess extends React.Component<ModelState> {
         })
     }
 
+    onPress = (data: IGuess) => {
+        console.log('Guess子组件向父组件传递的数据',data)
+    }
+
     renderItem = ({item}:{item:IGuess}) => {
         return (
-            <Touchable style={styles.item} onPress={() => {alert('点击')}}>
-                <Image source={{uri: item.image}} style={styles.image} />
-                <Text numberOfLines={2}>
-                    {item.title}
-                </Text>
-            </Touchable>
+            <GuessItem data={item} onPress={this.onPress}/>
         )
+    }
+
+    keyExtractor = (item: IGuess) => {
+        return item.id
     }
 
     render () {
@@ -53,7 +57,10 @@ class Guess extends React.Component<ModelState> {
                         <Icon name="icon-arrow-right" />
                     </View>
                 </View>
-                <FlatList numColumns={3} data={guessData} renderItem={this.renderItem} />
+                <FlatList numColumns={3} data={guessData} 
+                    renderItem={this.renderItem}
+                    keyExtractor={this.keyExtractor} 
+                />
                 <Touchable style={styles.changeGuess} onPress={this.fetch}>
                     <Icon color="red" name="icon-huanyipi"/>
                     <Text style={styles.changeGuessText}>换一批</Text>

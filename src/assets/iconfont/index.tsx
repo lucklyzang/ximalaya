@@ -4,6 +4,8 @@
 import React, { FunctionComponent } from 'react';
 import { ViewProps } from 'react-native';
 import { GProps } from 'react-native-svg';
+import IconIconV from './IconIconV';
+import IconIconShengyinXian from './IconIconShengyinXian';
 import IconHuanyipi from './IconHuanyipi';
 import IconArrowRight from './IconArrowRight';
 import IconXihuan from './IconXihuan';
@@ -16,6 +18,8 @@ import IconWode from './IconWode';
 import IconShouye from './IconShouye';
 import IconShouye1 from './IconShouye1';
 import IconShouyeTianchong from './IconShouyeTianchong';
+export { default as IconIconV } from './IconIconV';
+export { default as IconIconShengyinXian } from './IconIconShengyinXian';
 export { default as IconHuanyipi } from './IconHuanyipi';
 export { default as IconArrowRight } from './IconArrowRight';
 export { default as IconXihuan } from './IconXihuan';
@@ -29,7 +33,7 @@ export { default as IconShouye } from './IconShouye';
 export { default as IconShouye1 } from './IconShouye1';
 export { default as IconShouyeTianchong } from './IconShouyeTianchong';
 
-export type IconNames = 'icon-huanyipi' | 'icon-arrow-right' | 'icon-xihuan' | 'icon-play' | 'icon-31shouyexuanzhong' | 'icon-icon-' | 'icon-faxian' | 'icon-shoucang' | 'icon-wode' | 'icon-shouye' | 'icon-shouye1' | 'icon-shouye-tianchong';
+export type IconNames = 'icon-icon_v' | 'icon-icon_shengyin_xian' | 'icon-huanyipi' | 'icon-arrow-right' | 'icon-xihuan' | 'icon-play' | 'icon-31shouyexuanzhong' | 'icon-icon-' | 'icon-faxian' | 'icon-shoucang' | 'icon-wode' | 'icon-shouye' | 'icon-shouye1' | 'icon-shouye-tianchong';
 
 interface Props extends GProps, ViewProps {
   name: IconNames;
@@ -39,30 +43,34 @@ interface Props extends GProps, ViewProps {
 
 let IconFont: FunctionComponent<Props> = ({ name, ...rest }) => {
   switch (name) {
+    case 'icon-icon_v':
+      return <IconIconV key="1" {...rest} />;
+    case 'icon-icon_shengyin_xian':
+      return <IconIconShengyinXian key="2" {...rest} />;
     case 'icon-huanyipi':
-      return <IconHuanyipi key="1" {...rest} />;
+      return <IconHuanyipi key="3" {...rest} />;
     case 'icon-arrow-right':
-      return <IconArrowRight key="2" {...rest} />;
+      return <IconArrowRight key="4" {...rest} />;
     case 'icon-xihuan':
-      return <IconXihuan key="3" {...rest} />;
+      return <IconXihuan key="5" {...rest} />;
     case 'icon-play':
-      return <IconPlay key="4" {...rest} />;
+      return <IconPlay key="6" {...rest} />;
     case 'icon-31shouyexuanzhong':
-      return <Icon31Shouyexuanzhong key="5" {...rest} />;
+      return <Icon31Shouyexuanzhong key="7" {...rest} />;
     case 'icon-icon-':
-      return <IconIcon key="6" {...rest} />;
+      return <IconIcon key="8" {...rest} />;
     case 'icon-faxian':
-      return <IconFaxian key="7" {...rest} />;
+      return <IconFaxian key="9" {...rest} />;
     case 'icon-shoucang':
-      return <IconShoucang key="8" {...rest} />;
+      return <IconShoucang key="10" {...rest} />;
     case 'icon-wode':
-      return <IconWode key="9" {...rest} />;
+      return <IconWode key="11" {...rest} />;
     case 'icon-shouye':
-      return <IconShouye key="10" {...rest} />;
+      return <IconShouye key="12" {...rest} />;
     case 'icon-shouye1':
-      return <IconShouye1 key="11" {...rest} />;
+      return <IconShouye1 key="13" {...rest} />;
     case 'icon-shouye-tianchong':
-      return <IconShouyeTianchong key="12" {...rest} />;
+      return <IconShouyeTianchong key="14" {...rest} />;
   }
 
   return null;
